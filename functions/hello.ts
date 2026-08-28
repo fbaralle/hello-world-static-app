@@ -3,10 +3,14 @@
  *
  * Smoke test for the Cloud Functions pipeline: build -> deploy -> reachable.
  *
- * Written as a raw FetchableFunction rather than via declareFunction() so the
- * fixture needs no dependency installed. That matters for the static app (which
- * has no package.json at all) and keeps all three fixtures identical, so a
- * failure points at the pipeline rather than at one app's node_modules.
+ * Deliberately a raw FetchableFunction rather than declareFunction(): static
+ * detection requires that an app have no root package.json, so a static app can
+ * install no dependencies and therefore cannot import the wrapper. The raw
+ * `{ config, fetch }` shape is a supported authoring style for exactly this
+ * case; it trades away the typed context.
+ *
+ * The framework fixtures (next, astro7) use declareFunction() and are the
+ * reference for typed authoring — do not "fix" this file to match them.
  */
 export default {
   config: { method: "GET" },
